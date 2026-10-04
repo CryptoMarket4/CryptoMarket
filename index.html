@@ -357,6 +357,76 @@
   <footer id="news">
     © 2026 Crypto Market — All rights reserved.
   </footer>
+<script>
+async function loadLiveMarkets() {
+  try {
+    const symbols = ["BTCUSDT","ETHUSDT","SOLUSDT","BNBUSDT"];
+    const url =
+      "https://api.binance.com/api/v3/ticker/24hr?symbols=" +
+      encodeURIComponent(JSON.stringify(symbols));
 
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Market API error");
+
+    const data = await response.json();
+
+    const prices = {};
+
+    data.forEach(item => {
+      prices[item.symbol] = {
+        price: Number(item.lastPrice),
+        change: Number(item.priceChangePercent)
+      };
+    });
+
+    const coins = document.querySelectorAll(".coin");
+
+    coins.forEach(coin => {
+      const symbol = coin.querySelector(".coin-symbol").textContent.trim();
+      const status = coin.querySelector(".status");
+      const item = prices[symbol + "USDT"];
+
+      if (item) {
+        status.textContent =
+          "$" + item.price.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }) +
+          " • 24h " +
+          (item.change >= 0 ? "+" : "") +
+          item.change.toFixed(2) + "%";
+      }
+    });
+
+    const rows = document.querySelectorAll(".market tbody tr");
+
+    rows.forEach(row => {
+      const asset = row.children[1].textContent;
+      const symbol = asset.match(/\((.*?)\)/)?.[1];
+      const item = prices[symbol + "USDT"];
+
+      if (item) {
+        row.children[2].textContent =
+          "$" + item.price.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          });
+
+        row.children[3].textContent =
+          (item.change >= 0 ? "+" : "") +
+          item.change.toFixed(2) + "%";
+
+        row.children[5].textContent = "Live";
+      }
+    });
+
+  } catch (error) {
+    console.error("Live market data unavailable:", error);
+  }
+}
+
+loadLiveMarkets();
+setInterval(loadLiveMarkets, 30000);
+</script>
 </body>
   </html>
