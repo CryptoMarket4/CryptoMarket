@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crypto Market</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #06111f;
+      color: #ffffff;
+    }
+
+    header {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 25px;
+      border-bottom: 1px solid #17304a;
+      background: #071522;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .logo span {
+      color: #20e0a0;
+    }
+
+    nav a {
+      color: #b7c5d6;
+      text-decoration: none;
+      margin-left: 22px;
+      font-size: 14px;
+    }
+
+    nav a:hover {
+      color: #20e0a0;
+    }
+
+    .hero {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 45px 30px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #0c2340, #071522);
+      border: 1px solid #173b5c;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      margin-bottom: 15px;
+    }
+
+    .hero h1 span {
+      color: #20e0a0;
+    }
+
+    .hero p {
+      color: #a9b9ca;
+      font-size: 17px;
+      max-width: 650px;
+      line-height: 1.6;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 13px 22px;
+      border-radius: 9px;
+      background: #20e0a0;
+      color: #03120d;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .section {
+      max-width: 1200px;
+      margin: 35px auto;
+      padding: 0 20px;
+    }
+
+    .section h2 {
+      margin-bottom: 20px;
+    }
+
+    .coins {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .coin {
+      background: #0a1b2d;
+      border: 1px solid #17304a;
+      border-radius: 15px;
+      padding: 20px;
+    }
+
+    .coin-name {
+      color: #b7c5d6;
+      margin-bottom: 10px;
+    }
+
+    .coin-symbol {
+      color: #6f8297;
+      font-size: 13px;
+    }
+
+    .status {
+      margin-top: 12px;
+      color: #8295a8;
+      font-size: 13px;
+    }
+
+    .market {
+      overflow-x: auto;
+      background: #0a1b2d;
+      border: 1px solid #17304a;
+      border-radius: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 650px;
+    }
+
+    th, td {
+      padding: 18px;
+      text-align: left;
+      border-bottom: 1px solid #17304a;
+    }
+
+    th {
+      color: #8094a9;
+      font-size: 13px;
+    }
+
+    td {
+      color: #d9e3ed;
+    }
+
+    .coming {
+      color: #20e0a0;
+      font-weight: bold;
+    }
+
+    .notice {
+      max-width: 1200px;
+      margin: 35px auto;
+      padding: 22px;
+      border-radius: 15px;
+      background: #0b1d2e;
+      border: 1px solid #244563;
+    }
+
+    .notice h3 {
+      margin-bottom: 8px;
+    }
+
+    .notice p {
+      color: #9fb0c2;
+      line-height: 1.5;
+    }
+
+    footer {
+      margin-top: 60px;
+      padding: 30px;
+      text-align: center;
+      color: #718397;
+      border-top: 1px solid #17304a;
+    }
+
+    @media (max-width: 800px) {
+      header {
+        padding: 0 15px;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .hero {
+        margin: 20px 15px;
+        padding: 30px 20px;
+      }
+
+      .hero h1 {
+        font-size: 31px;
+      }
+
+      .section {
+        margin: 25px 15px;
+        padding: 0;
+      }
+
+      .coins {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 450px) {
+      .coins {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">
+      Crypto<span>Market</span>
+    </div>
+
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#markets">Markets</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#trade">Trade</a>
+      <a href="#news">News</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="hero" id="home">
+      <h1>The future of <span>crypto</span> starts here.</h1>
+
+      <p>
+        Crypto Market is being built as a real cryptocurrency platform
+        for market information, portfolios and trading services.
+      </p>
+
+      <a class="button" href="#markets">Explore Markets</a>
+    </section>
+
+    <section class="section" id="markets">
+      <h2>Markets</h2>
+
+      <div class="coins">
+
+        <div class="coin">
+          <div class="coin-name">Bitcoin</div>
+          <div class="coin-symbol">BTC</div>
+          <div class="status">Live market data coming soon</div>
+        </div>
+
+        <div class="coin">
+          <div class="coin-name">Ethereum</div>
+          <div class="coin-symbol">ETH</div>
+          <div class="status">Live market data coming soon</div>
+        </div>
+
+        <div class="coin">
+          <div class="coin-name">Solana</div>
+          <div class="coin-symbol">SOL</div>
+          <div class="status">Live market data coming soon</div>
+        </div>
+
+        <div class="coin">
+          <div class="coin-name">BNB</div>
+          <div class="coin-symbol">BNB</div>
+          <div class="status">Live market data coming soon</div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section">
+
+      <div class="market">
+
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Asset</th>
+              <th>Price</th>
+              <th>24h</th>
+              <th>Market Cap</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Bitcoin (BTC)</td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+              <td class="coming">Connecting</td>
+            </tr>
+
+            <tr>
+              <td>2</td>
+              <td>Ethereum (ETH)</td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+              <td class="coming">Connecting</td>
+            </tr>
+
+            <tr>
+              <td>3</td>
+              <td>Solana (SOL)</td>
+              <td>—</td>
+              <td>—</td>
+              <td>—</td>
+              <td class="coming">Connecting</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+    </section>
+
+    <section class="notice" id="trade">
+
+      <h3>Crypto Delivery</h3>
+
+      <p>
+        Certain crypto purchases may be subject to a delivery or lock-up
+        period. The exact delivery date, conditions and availability of
+        Sell will always be displayed before a transaction is confirmed.
+      </p>
+
+    </section>
+
+    <section class="notice" id="portfolio">
+
+      <h3>Portfolio</h3>
+
+      <p>
+        Your portfolio, balances and transaction history will appear here
+        after secure account and wallet infrastructure is connected.
+      </p>
+
+    </section>
+
+  </main>
+
+  <footer id="news">
+    © 2026 Crypto Market — All rights reserved.
+  </footer>
+
+</body>
+  </html>
