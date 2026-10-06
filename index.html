@@ -1,432 +1,3823 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="el">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crypto Market</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#050b1c">
+<meta name="description" content="CryptoMarket — Buy, Trade, Invest, Grow.">
+<title>CryptoMarket</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<style>
+:root{
+  --bg:#050b1c;
+  --panel:#09152b;
+  --panel2:#0c1b35;
+  --line:#17335e;
+  --purple:#7447ff;
+  --purple2:#a35cff;
+  --blue:#2d75ff;
+  --cyan:#42d8ff;
+  --green:#00e6a2;
+  --red:#ff3d78;
+  --text:#f5f7ff;
+  --muted:#9eafd1;
+  --shadow:0 18px 60px rgba(0,0,0,.35);
+  --radius:22px;
+}
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #06111f;
-      color: #ffffff;
-    }
+*{box-sizing:border-box}
 
-    header {
-      height: 70px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 25px;
-      border-bottom: 1px solid #17304a;
-      background: #071522;
-    }
+html,body{
+  margin:0;
+  padding:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+}
 
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-    }
+body{min-height:100vh}
 
-    .logo span {
-      color: #20e0a0;
-    }
+button,input,select{font:inherit}
+button{cursor:pointer}
+a{color:inherit}
 
-    nav a {
-      color: #b7c5d6;
-      text-decoration: none;
-      margin-left: 22px;
-      font-size: 14px;
-    }
+.app{
+  max-width:520px;
+  margin:0 auto;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 80% 0%,rgba(116,71,255,.16),transparent 28%),
+    radial-gradient(circle at 10% 40%,rgba(45,117,255,.08),transparent 25%),
+    var(--bg);
+  padding-bottom:92px
+}
 
-    nav a:hover {
-      color: #20e0a0;
-    }
+header.top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 18px 10px;
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:rgba(5,11,28,.92);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(80,110,180,.14)
+}
 
-    .hero {
-      max-width: 1200px;
-      margin: 40px auto;
-      padding: 45px 30px;
-      border-radius: 20px;
-      background: linear-gradient(135deg, #0c2340, #071522);
-      border: 1px solid #173b5c;
-    }
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px
+}
 
-    .hero h1 {
-      font-size: 42px;
-      margin-bottom: 15px;
-    }
+.logo{
+  width:42px;
+  height:42px;
+  border-radius:13px;
+  background:linear-gradient(145deg,#7b3cff,#36c8ff);
+  display:grid;
+  place-items:center;
+  font-weight:900;
+  font-size:22px;
+  box-shadow:0 0 30px rgba(116,71,255,.35)
+}
 
-    .hero h1 span {
-      color: #20e0a0;
-    }
+.brand b{
+  font-size:21px;
+  letter-spacing:-.7px
+}
 
-    .hero p {
-      color: #a9b9ca;
-      font-size: 17px;
-      max-width: 650px;
-      line-height: 1.6;
-    }
+.brand b span{color:#a65cff}
 
-    .button {
-      display: inline-block;
-      margin-top: 25px;
-      padding: 13px 22px;
-      border-radius: 9px;
-      background: #20e0a0;
-      color: #03120d;
-      font-weight: bold;
-      text-decoration: none;
-    }
+.brand small{
+  display:block;
+  color:#9eb1d5;
+  font-size:11px;
+  margin-top:2px
+}
 
-    .section {
-      max-width: 1200px;
-      margin: 35px auto;
-      padding: 0 20px;
-    }
+.iconbtn{
+  width:42px;
+  height:42px;
+  border:1px solid var(--line);
+  background:#09152b;
+  color:white;
+  border-radius:14px
+}
 
-    .section h2 {
-      margin-bottom: 20px;
-    }
+.page{
+  display:none;
+  padding:16px
+}
 
-    .coins {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
-    }
+.page.active{display:block}
 
-    .coin {
-      background: #0a1b2d;
-      border: 1px solid #17304a;
-      border-radius: 15px;
-      padding: 20px;
-    }
+h1,h2,h3,p{margin-top:0}
 
-    .coin-name {
-      color: #b7c5d6;
-      margin-bottom: 10px;
-    }
+h1{
+  font-size:28px;
+  margin-bottom:6px
+}
 
-    .coin-symbol {
-      color: #6f8297;
-      font-size: 13px;
-    }
+h2{
+  font-size:20px;
+  margin-bottom:12px
+}
 
-    .status {
-      margin-top: 12px;
-      color: #8295a8;
-      font-size: 13px;
-    }
+h3{font-size:16px}
 
-    .market {
-      overflow-x: auto;
-      background: #0a1b2d;
-      border: 1px solid #17304a;
-      border-radius: 15px;
-    }
+.muted{color:var(--muted)}
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 650px;
-    }
+.tiny{
+  font-size:11px;
+  color:var(--muted)
+}
 
-    th, td {
-      padding: 18px;
-      text-align: left;
-      border-bottom: 1px solid #17304a;
-    }
+.card{
+  background:linear-gradient(145deg,rgba(13,29,57,.96),rgba(6,16,34,.96));
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:16px;
+  margin-bottom:14px
+}
 
-    th {
-      color: #8094a9;
-      font-size: 13px;
-    }
+.hero{
+  border-color:#6341ff;
+  background:
+    radial-gradient(circle at 85% 30%,rgba(116,71,255,.38),transparent 30%),
+    linear-gradient(145deg,#101c53,#071229);
+  overflow:hidden
+}
 
-    td {
-      color: #d9e3ed;
-    }
+.hero h1{
+  font-size:31px;
+  line-height:1.08
+}
 
-    .coming {
-      color: #20e0a0;
-      font-weight: bold;
-    }
+.hero .sub{
+  font-size:14px;
+  color:#b5c7ea;
+  line-height:1.5
+}
 
-    .notice {
-      max-width: 1200px;
-      margin: 35px auto;
-      padding: 22px;
-      border-radius: 15px;
-      background: #0b1d2e;
-      border: 1px solid #244563;
-    }
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 11px;
+  border-radius:999px;
+  background:rgba(116,71,255,.18);
+  color:#cdbaff;
+  border:1px solid rgba(116,71,255,.35);
+  font-size:11px;
+  font-weight:700
+}
 
-    .notice h3 {
-      margin-bottom: 8px;
-    }
+.row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px
+}
 
-    .notice p {
-      color: #9fb0c2;
-      line-height: 1.5;
-    }
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px
+}
 
-    footer {
-      margin-top: 60px;
-      padding: 30px;
-      text-align: center;
-      color: #718397;
-      border-top: 1px solid #17304a;
-    }
+.btn{
+  border:0;
+  border-radius:15px;
+  padding:13px 16px;
+  font-weight:800;
+  color:white;
+  background:linear-gradient(135deg,#6437ff,#8b4cff);
+  box-shadow:0 10px 30px rgba(116,71,255,.25)
+}
 
-    @media (max-width: 800px) {
-      header {
-        padding: 0 15px;
-      }
+.btn.secondary{
+  background:#0d1c35;
+  border:1px solid var(--line);
+  box-shadow:none
+}
 
-      nav {
-        display: none;
-      }
+.btn.full{width:100%}
 
-      .hero {
-        margin: 20px 15px;
-        padding: 30px 20px;
-      }
+.btn:disabled{
+  opacity:.45;
+  cursor:not-allowed
+}
 
-      .hero h1 {
-        font-size: 31px;
-      }
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:20px 2px 10px
+}
 
-      .section {
-        margin: 25px 15px;
-        padding: 0;
-      }
+.section-title h2{margin:0}
 
-      .coins {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
+.link{
+  color:#ad8cff;
+  font-size:12px;
+  font-weight:700
+}
 
-    @media (max-width: 450px) {
-      .coins {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+.balance{
+  font-size:36px;
+  font-weight:900;
+  letter-spacing:-1.5px
+}
+
+.positive{color:var(--green)}
+.negative{color:var(--red)}
+
+.chart{
+  height:95px;
+  display:flex;
+  align-items:flex-end;
+  gap:4px;
+  margin-top:10px
+}
+
+.bar{
+  flex:1;
+  border-radius:8px 8px 2px 2px;
+  background:linear-gradient(to top,#4b2bff,#4edfff);
+  min-height:10px;
+  opacity:.9
+}
+
+.quick{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-top:12px
+}
+
+.quick button{
+  background:#0b1b35;
+  border:1px solid var(--line);
+  border-radius:14px;
+  color:white;
+  padding:10px 4px;
+  font-size:11px
+}
+
+.quick i{
+  display:block;
+  font-style:normal;
+  font-size:18px;
+  margin-bottom:3px
+}
+
+.coin-strip{
+  display:flex;
+  gap:9px;
+  overflow:auto;
+  padding-bottom:4px
+}
+
+.coin-mini{
+  min-width:142px;
+  padding:13px;
+  background:#08162e;
+  border:1px solid var(--line);
+  border-radius:17px
+}
+
+.coin-mini strong{
+  display:block;
+  font-size:15px
+}
+
+.coin-mini .price{
+  font-weight:800;
+  margin:8px 0 2px
+}
+
+.coin-mini .change{
+  font-size:12px
+}
+
+.search{
+  width:100%;
+  background:#08162e;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:13px 14px;
+  color:white;
+  outline:none;
+  margin-bottom:10px
+}
+
+.search:focus{border-color:#8155ff}
+
+.tabs{
+  display:flex;
+  gap:7px;
+  overflow:auto;
+  margin-bottom:12px
+}
+
+.tabs button{
+  white-space:nowrap;
+  background:#08162e;
+  border:1px solid var(--line);
+  color:#b7c6e4;
+  border-radius:12px;
+  padding:9px 13px;
+  font-size:12px
+}
+
+.tabs button.active{
+  background:linear-gradient(135deg,#6437ff,#8b4cff);
+  border-color:#8b5bff;
+  color:white
+}
+
+.market-list{
+  display:flex;
+  flex-direction:column;
+  gap:7px
+}
+
+.market-row{
+  display:grid;
+  grid-template-columns:34px 1.5fr 1fr .75fr;
+  gap:7px;
+  align-items:center;
+  padding:12px 7px;
+  background:#07152c;
+  border:1px solid #102b50;
+  border-radius:15px
+}
+
+.coin-icon{
+  width:31px;
+  height:31px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-size:14px;
+  font-weight:900;
+  background:linear-gradient(145deg,#ffb000,#ff6a00);
+  color:#07101e
+}
+
+.coin-name{
+  font-weight:800;
+  font-size:13px
+}
+
+.coin-symbol{
+  font-size:10px;
+  color:var(--muted)
+}
+
+.market-price{
+  text-align:right;
+  font-size:12px;
+  font-weight:800
+}
+
+.market-change{
+  text-align:right;
+  font-size:11px;
+  font-weight:800
+}
+
+.detail-head{
+  display:flex;
+  align-items:center;
+  gap:12px
+}
+
+.big-icon{
+  width:58px;
+  height:58px;
+  border-radius:19px;
+  display:grid;
+  place-items:center;
+  font-size:25px;
+  font-weight:900;
+  background:linear-gradient(145deg,#ffad00,#ff6500)
+}
+
+.big-price{
+  font-size:34px;
+  font-weight:900;
+  margin:15px 0 2px
+}
+
+.timeframes{
+  display:flex;
+  gap:6px;
+  overflow:auto
+}
+
+.timeframes button{
+  background:#0a1931;
+  color:#aebdde;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:8px 11px;
+  font-size:11px
+}
+
+.timeframes button.active{
+  background:#7042ff;
+  color:#fff;
+  border-color:#9a73ff
+}
+
+.linechart{
+  height:180px;
+  margin-top:14px;
+  position:relative;
+  overflow:hidden;
+  border-radius:15px;
+  background:linear-gradient(180deg,rgba(116,71,255,.13),transparent)
+}
+
+.linechart svg{
+  width:100%;
+  height:100%
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px
+}
+
+.stat{
+  background:#08172f;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px
+}
+
+.stat small{
+  color:var(--muted);
+  display:block
+}
+
+.stat strong{
+  display:block;
+  margin-top:4px
+}
+
+.form-group{margin-bottom:12px}
+
+.form-group label{
+  display:block;
+  color:#aebdde;
+  font-size:12px;
+  margin-bottom:6px
+}
+
+.input{
+  width:100%;
+  padding:13px;
+  border-radius:14px;
+  background:#07152c;
+  border:1px solid var(--line);
+  color:white;
+  outline:none
+}
+
+.input:focus{border-color:#835cff}
+
+.amount{
+  font-size:32px;
+  font-weight:900;
+  text-align:center;
+  padding:16px;
+  background:#07152c;
+  border:1px solid var(--line);
+  border-radius:18px
+}
+
+.amount input{
+  width:100%;
+  background:none;
+  border:0;
+  color:white;
+  text-align:center;
+  font-size:32px;
+  font-weight:900;
+  outline:none
+}
+
+.amount-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:7px;
+  margin-top:8px
+}
+
+.amount-grid button{
+  background:#0b1b35;
+  color:white;
+  border:1px solid var(--line);
+  border-radius:11px;
+  padding:9px;
+  font-size:11px
+}
+
+.amount-grid button.active{
+  border-color:#9a73ff;
+  background:#1c1645
+}
+
+.summary div{
+  display:flex;
+  justify-content:space-between;
+  padding:8px 0;
+  border-bottom:1px solid #17304f;
+  font-size:12px
+}
+
+.summary div:last-child{
+  border-bottom:0;
+  font-weight:900;
+  font-size:14px
+}
+
+.step{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  margin-bottom:10px
+}
+
+.stepno{
+  min-width:30px;
+  height:30px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,#6236ff,#9a52ff);
+  font-weight:900
+}
+
+.payment-methods{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px
+}
+
+.pay-card{
+  padding:14px 7px;
+  border-radius:15px;
+  background:#08172f;
+  border:1px solid var(--line);
+  text-align:center
+}
+
+.pay-card.active{
+  border-color:#965eff;
+  box-shadow:0 0 22px rgba(116,71,255,.2)
+}
+
+.pay-card b{
+  display:block;
+  font-size:12px;
+  margin-top:7px
+}
+
+.pay-card small{
+  font-size:9px;
+  color:var(--muted)
+}
+
+.hold{
+  border:1px solid #5b42a7;
+  background:rgba(77,52,160,.1)
+}
+
+.status{
+  font-size:10px;
+  padding:5px 8px;
+  border-radius:999px;
+  background:#12264a;
+  color:#a9c3ff
+}
+
+.status.ok{
+  background:rgba(0,230,162,.1);
+  color:var(--green)
+}
+
+.status.lock{
+  background:rgba(255,170,0,.12);
+  color:#ffc44d
+}
+
+.holding{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 0;
+  border-bottom:1px solid #17304f
+}
+
+.holding:last-child{border:0}
+
+.holding-left{
+  display:flex;
+  align-items:center;
+  gap:9px
+}
+
+.holding-icon{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-weight:900;
+  background:#273c66
+}
+
+.nav{
+  position:fixed;
+  left:50%;
+  bottom:0;
+  transform:translateX(-50%);
+  width:min(520px,100%);
+  z-index:30;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  background:rgba(5,11,28,.96);
+  backdrop-filter:blur(18px);
+  border-top:1px solid #18305a;
+  padding:8px 6px max(8px,env(safe-area-inset-bottom))
+}
+
+.nav button{
+  border:0;
+  background:none;
+  color:#8498be;
+  font-size:10px;
+  padding:5px 2px
+}
+
+.nav button.active{color:#b06bff}
+
+.nav-icon{
+  display:block;
+  font-size:20px;
+  margin-bottom:2px
+}
+
+.account-card{
+  display:flex;
+  align-items:center;
+  gap:12px
+}
+
+.avatar{
+  width:55px;
+  height:55px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#7340ff,#27c7ff);
+  display:grid;
+  place-items:center;
+  font-weight:900;
+  font-size:20px
+}
+
+.menu-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:15px 2px;
+  border-bottom:1px solid #17304f
+}
+
+.menu-item:last-child{border:0}
+
+.menu-left{
+  display:flex;
+  gap:11px;
+  align-items:center
+}
+
+.menu-icon{
+  width:34px;
+  height:34px;
+  border-radius:11px;
+  background:#0c1d3b;
+  display:grid;
+  place-items:center
+}
+
+.news{
+  display:flex;
+  gap:10px;
+  padding:11px 0;
+  border-bottom:1px solid #17304f
+}
+
+.news-img{
+  width:82px;
+  height:60px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#203e78,#6e3fff);
+  flex:none
+}
+
+.news h3{
+  font-size:12px;
+  margin-bottom:4px
+}
+
+.news p{
+  font-size:10px;
+  color:var(--muted);
+  margin:0
+}
+
+.delivery{
+  text-align:center;
+  padding:12px
+}
+
+.timeline{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:25px 0
+}
+
+.timeline .point{
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:#12274b;
+  border:1px solid #244878
+}
+
+.timeline .point.done{
+  background:#7142ff;
+  border-color:#9a6bff
+}
+
+.timeline .connector{
+  height:2px;
+  background:#244878;
+  flex:1
+}
+
+.timeline .connector.done{
+  background:#7142ff
+}
+
+.success{
+  text-align:center;
+  padding:25px 8px
+}
+
+.success .check{
+  width:74px;
+  height:74px;
+  border-radius:50%;
+  margin:0 auto 14px;
+  background:rgba(0,230,162,.12);
+  border:1px solid rgba(0,230,162,.4);
+  display:grid;
+  place-items:center;
+  color:var(--green);
+  font-size:38px
+}
+
+.login{padding-top:35px}
+
+.login-logo{
+  text-align:center;
+  margin-bottom:25px
+}
+
+.login-logo .logo{
+  margin:0 auto 10px
+}
+
+.switch{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  background:#08172f;
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:4px;
+  margin-bottom:15px
+}
+
+.switch button{
+  border:0;
+  background:none;
+  color:#9fb0d0;
+  padding:10px;
+  border-radius:10px
+}
+
+.switch button.active{
+  background:#7042ff;
+  color:#fff
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:92px;
+  transform:translateX(-50%) translateY(20px);
+  background:#0e2342;
+  border:1px solid #31538b;
+  padding:12px 16px;
+  border-radius:13px;
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+  z-index:50;
+  font-size:12px;
+  box-shadow:var(--shadow)
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0)
+}
+
+.notice{
+  font-size:10px;
+  color:#8fa3c9;
+  line-height:1.5;
+  background:#07142a;
+  border:1px solid #142d50;
+  border-radius:13px;
+  padding:10px
+}
+
+@media(max-width:370px){
+  .market-row{
+    grid-template-columns:29px 1.2fr 1fr .7fr
+  }
+
+  .brand b{font-size:18px}
+  .balance{font-size:31px}
+
+  .payment-methods{
+    grid-template-columns:1fr
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <div class="logo">
-      Crypto<span>Market</span>
+<div class="app">
+
+<header class="top">
+
+  <div class="brand">
+
+    <div class="logo">C</div>
+
+    <div>
+      <b>Crypto<span>Market</span></b>
+      <small>Buy • Trade • Invest • Grow</small>
     </div>
 
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#markets">Markets</a>
-      <a href="#portfolio">Portfolio</a>
-      <a href="#trade">Trade</a>
-      <a href="#news">News</a>
-    </nav>
-  </header>
+  </div>
 
-  <main>
+  <button class="iconbtn" onclick="openPage('account')">
+    ◉
+  </button>
 
-    <section class="hero" id="home">
-      <h1>The future of <span>crypto</span> starts here.</h1>
+</header>
 
-      <p>
-        Crypto Market is being built as a real cryptocurrency platform
-        for market information, portfolios and trading services.
+
+<main>
+
+
+<!-- HOME -->
+
+<section id="home" class="page active">
+
+  <div class="card hero">
+
+    <span class="pill">⚡ LIVE MARKET DATA</span>
+
+    <h1>The future of crypto starts here.</h1>
+
+    <p class="sub">
+      Real-time prices, markets, portfolio and secure crypto tools —
+      designed mobile first.
+    </p>
+
+    <button class="btn" onclick="openPage('markets')">
+      Explore Markets →
+    </button>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="row">
+
+      <div>
+        <div class="tiny">Portfolio Balance</div>
+        <div id="homeBalance" class="balance">€0.00</div>
+      </div>
+
+      <div class="positive" id="homeChange">
+        +0.00%
+      </div>
+
+    </div>
+
+    <div class="chart" id="balanceChart"></div>
+
+
+    <div class="quick">
+
+      <button onclick="openPage('trade')">
+        <i>＋</i>Buy
+      </button>
+
+      <button onclick="openPage('trade')">
+        <i>↔</i>Sell
+      </button>
+
+      <button onclick="openPage('payments')">
+        <i>€</i>Payments
+      </button>
+
+      <button onclick="openPage('portfolio')">
+        <i>▣</i>Portfolio
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="section-title">
+    <h2>Live Prices</h2>
+    <button class="link" onclick="openPage('markets')">
+      View all →
+    </button>
+  </div>
+
+  <div id="homeCoins" class="coin-strip"></div>
+
+
+  <div class="card" style="margin-top:14px;border-color:#5b42a7">
+
+    <span class="pill">CryptoMarket Payments</span>
+
+    <h2 style="margin-top:10px">
+      Γρήγορες και ασφαλείς πληρωμές
+    </h2>
+
+    <p class="muted">
+      Revolut, κάρτα ή τραπεζική μεταφορά —
+      η τελική μέθοδος εξαρτάται από τον εγκεκριμένο payment provider.
+    </p>
+
+    <button class="btn" onclick="openPage('payments')">
+      Άνοιγμα Payments →
+    </button>
+
+  </div>
+
+
+  <div class="section-title">
+    <h2>Trending</h2>
+    <span class="link">Live</span>
+  </div>
+
+  <div id="trending" class="card"></div>
+
+</section>
+
+
+
+<!-- MARKETS -->
+
+<section id="markets" class="page">
+
+  <div class="row">
+
+    <div>
+      <h1>Markets</h1>
+      <p class="muted">Live crypto markets σε EUR</p>
+    </div>
+
+    <button class="iconbtn" onclick="loadMarkets()">↻</button>
+
+  </div>
+
+
+  <input
+    id="marketSearch"
+    class="search"
+    placeholder="🔎 Αναζήτηση coin..."
+    oninput="renderMarkets()"
+  >
+
+
+  <div class="tabs" id="marketTabs">
+
+    <button class="active" data-filter="all">
+      Όλα
+    </button>
+
+    <button data-filter="gainers">
+      Gainers
+    </button>
+
+    <button data-filter="losers">
+      Losers
+    </button>
+
+    <button data-filter="top">
+      Top 10
+    </button>
+
+  </div>
+
+
+  <div id="marketList" class="market-list"></div>
+
+
+  <div class="notice" style="margin-top:12px">
+
+    Οι τιμές προέρχονται από δημόσιο market-data API
+    και ενδέχεται να καθυστερούν ή να έχουν rate limits.
+
+    Για production trading θα χρειαστεί εγκεκριμένος
+    data/liquidity provider.
+
+  </div>
+
+</section>
+
+
+
+<!-- COIN -->
+
+<section id="coin" class="page">
+
+  <button class="link" onclick="openPage('markets')">
+    ← Πίσω στις Αγορές
+  </button>
+
+  <div id="coinDetail"></div>
+
+</section>
+
+
+
+<!-- TRADE -->
+
+<section id="trade" class="page">
+
+  <h1>Trade</h1>
+  <p class="muted">Buy & Sell crypto</p>
+
+
+  <div class="switch">
+
+    <button id="buyTab"
+            class="active"
+            onclick="setTradeMode('buy')">
+      Buy
+    </button>
+
+    <button id="sellTab"
+            onclick="setTradeMode('sell')">
+      Sell
+    </button>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="form-group">
+
+      <label>Crypto</label>
+
+      <select
+        id="tradeCoin"
+        class="input"
+        onchange="updateTrade()">
+      </select>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>Ποσό σε EUR</label>
+
+      <div class="amount">
+        <input
+          id="tradeAmount"
+          value="100"
+          inputmode="decimal"
+          oninput="updateTrade()">
+      </div>
+
+
+      <div class="amount-grid">
+
+        <button onclick="setAmount(50)">
+          €50
+        </button>
+
+        <button onclick="setAmount(100)">
+          €100
+        </button>
+
+        <button onclick="setAmount(250)">
+          €250
+        </button>
+
+        <button onclick="setAmount(500)">
+          €500
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="summary card"
+         style="margin:12px 0;background:#07142a">
+
+      <div>
+        <span>Live price</span>
+        <strong id="tradePrice">—</strong>
+      </div>
+
+      <div>
+        <span>Estimated receive</span>
+        <strong id="tradeReceive">—</strong>
+      </div>
+
+      <div>
+        <span>Fee</span>
+        <strong id="tradeFee">—</strong>
+      </div>
+
+      <div>
+        <span>Total</span>
+        <strong id="tradeTotal">—</strong>
+      </div>
+
+    </div>
+
+
+    <button
+      id="tradeButton"
+      class="btn full"
+      onclick="startTrade()">
+      Continue to Payment
+    </button>
+
+
+    <p class="notice" style="margin-top:10px">
+
+      Η πραγματική χρέωση κάρτας/3DS δεν εκτελείται
+      από αυτό το frontend.
+
+      Θα συνδεθεί με εγκεκριμένο provider μέσω του backend
+      και verified webhooks.
+
+    </p>
+
+  </div>
+
+</section>
+
+
+
+<!-- PAYMENTS -->
+
+<section id="payments" class="page">
+
+  <div class="row">
+
+    <div>
+      <h1>
+        CryptoMarket
+        <span style="color:#a65cff">Payments</span>
+      </h1>
+
+      <p class="muted">
+        Fast • Secure • Global
       </p>
+    </div>
 
-      <a class="button" href="#markets">Explore Markets</a>
-    </section>
+    <span class="pill">
+      🛡 Secure
+    </span>
 
-    <section class="section" id="markets">
-      <h2>Markets</h2>
+  </div>
 
-      <div class="coins">
 
-        <div class="coin" onclick="window.location.href='bitcoin.html'" style="cursor:pointer;">
-          <div class="coin-name">Bitcoin</div>
-          <div class="coin-symbol">BTC</div>
-          <div class="status">Live market data coming soon</div>
-        </div>
+  <div class="card hero">
 
-        <div class="coin">
-          <div class="coin-name">Ethereum</div>
-          <div class="coin-symbol">ETH</div>
-          <div class="status">Live market data coming soon</div>
-        </div>
+    <h2>
+      Γρήγορες και ασφαλείς πληρωμές
+    </h2>
 
-        <div class="coin">
-          <div class="coin-name">Solana</div>
-          <div class="coin-symbol">SOL</div>
-          <div class="status">Live market data coming soon</div>
-        </div>
+    <p class="muted">
 
-        <div class="coin">
-          <div class="coin-name">BNB</div>
-          <div class="coin-symbol">BNB</div>
-          <div class="status">Live market data coming soon</div>
+      Στείλε χρήματα μέσω εγκεκριμένου payment method.
+
+      Τα στοιχεία παραλήπτη επαληθεύονται πριν την εκτέλεση.
+
+    </p>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="step">
+
+      <span class="stepno">1</span>
+
+      <div>
+
+        <h3>Επίλεξε τρόπο πληρωμής</h3>
+
+        <div class="payment-methods">
+
+
+          <button
+            class="pay-card active"
+            onclick="selectPay(this,'Revolut')">
+
+            <div>Ⓡ</div>
+
+            <b>Revolut</b>
+
+            <small>
+              Revtag / Email / Phone
+            </small>
+
+          </button>
+
+
+          <button
+            class="pay-card"
+            onclick="selectPay(this,'Card')">
+
+            <div>▣</div>
+
+            <b>Κάρτα</b>
+
+            <small>
+              Visa / Mastercard
+            </small>
+
+          </button>
+
+
+          <button
+            class="pay-card"
+            onclick="selectPay(this,'Bank')">
+
+            <div>🏦</div>
+
+            <b>Τραπεζική</b>
+
+            <small>
+              SEPA / IBAN
+            </small>
+
+          </button>
+
+
         </div>
 
       </div>
-    </section>
 
-    <section class="section">
+    </div>
 
-      <div class="market">
+  </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Asset</th>
-              <th>Price</th>
-              <th>24h</th>
-              <th>Market Cap</th>
-              <th>Status</th>
-            </tr>
-          </thead>
 
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Bitcoin (BTC)</td>
-              <td>—</td>
-              <td>—</td>
-              <td>—</td>
-              <td class="coming">Connecting</td>
-            </tr>
 
-            <tr>
-              <td>2</td>
-              <td>Ethereum (ETH)</td>
-              <td>—</td>
-              <td>—</td>
-              <td>—</td>
-              <td class="coming">Connecting</td>
-            </tr>
+  <div class="card">
 
-            <tr>
-              <td>3</td>
-              <td>Solana (SOL)</td>
-              <td>—</td>
-              <td>—</td>
-              <td>—</td>
-              <td class="coming">Connecting</td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="step">
+
+      <span class="stepno">2</span>
+
+      <div style="width:100%">
+
+        <h3>Στοιχεία παραλήπτη</h3>
+
+
+        <div class="tabs">
+
+          <button
+            class="active"
+            onclick="setRecipient(this,'Revtag')">
+            Revtag
+          </button>
+
+          <button
+            onclick="setRecipient(this,'Email')">
+            Email
+          </button>
+
+          <button
+            onclick="setRecipient(this,'Phone')">
+            Τηλέφωνο
+          </button>
+
+        </div>
+
+
+        <input
+          id="recipient"
+          class="input"
+          placeholder="π.χ. @cryptomarket"
+          autocomplete="off">
+
+
+        <p class="tiny"
+           style="margin:7px 0 0">
+
+          Ο τρόπος εκτέλεσης εξαρτάται από
+          τον payment provider και τα δικαιώματα
+          του λογαριασμού.
+
+        </p>
 
       </div>
 
-    </section>
+    </div>
 
-    <section class="notice" id="trade">
+  </div>
 
-      <h3>Crypto Delivery</h3>
 
-      <p>
-        Certain crypto purchases may be subject to a delivery or lock-up
-        period. The exact delivery date, conditions and availability of
-        Sell will always be displayed before a transaction is confirmed.
-      </p>
 
-    </section>
+  <div class="card">
 
-    <section class="notice" id="portfolio">
+    <div class="step">
 
-      <h3>Portfolio</h3>
+      <span class="stepno">3</span>
 
-      <p>
-        Your portfolio, balances and transaction history will appear here
-        after secure account and wallet infrastructure is connected.
-      </p>
+      <div style="width:100%">
 
-    </section>
+        <h3>Ποσό πληρωμής</h3>
 
-  </main>
 
-  <footer id="news">
-    © 2026 Crypto Market — All rights reserved.
-  </footer>
+        <div class="amount">
+
+          <input
+            id="payAmount"
+            value="100"
+            inputmode="decimal">
+
+        </div>
+
+
+        <div class="amount-grid">
+
+          <button onclick="setPayAmount(50)">
+            €50
+          </button>
+
+          <button
+            class="active"
+            onclick="setPayAmount(100)">
+            €100
+          </button>
+
+          <button onclick="setPayAmount(250)">
+            €250
+          </button>
+
+          <button onclick="setPayAmount(500)">
+            €500
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="card summary">
+
+    <div>
+      <span>Τρόπος πληρωμής</span>
+      <strong id="payMethodLabel">
+        Revolut
+      </strong>
+    </div>
+
+    <div>
+      <span>Παραλήπτης</span>
+      <strong id="payRecipientLabel">
+        —
+      </strong>
+    </div>
+
+    <div>
+      <span>Ποσό</span>
+      <strong id="payTotalLabel">
+        €100.00
+      </strong>
+    </div>
+
+  </div>
+
+
+  <button
+    class="btn full"
+    onclick="requestPayment()">
+
+    Μεταφορά χρημάτων →
+
+  </button>
+
+
+  <p class="notice" style="margin-top:10px">
+
+    Δεν αποθηκεύουμε card numbers στο frontend.
+
+    Πραγματικές πληρωμές πρέπει να δημιουργούνται
+    από το backend και να επιβεβαιώνονται με signed
+    webhook από τον εγκεκριμένο provider.
+
+  </p>
+
+</section>
+
+
+
+<!-- PORTFOLIO -->
+
+<section id="portfolio" class="page">
+
+  <h1>Portfolio</h1>
+
+  <p class="muted">
+    Τοπική προβολή χαρτοφυλακίου μέχρι να συνδεθεί
+    πραγματικό custody/wallet backend.
+  </p>
+
+
+  <div class="card hero">
+
+    <div class="tiny">
+      Total Balance
+    </div>
+
+    <div id="portfolioBalance"
+         class="balance">
+      €0.00
+    </div>
+
+    <div class="positive">
+      +0.00% 24h
+    </div>
+
+    <div class="chart"
+         id="portfolioChart">
+    </div>
+
+  </div>
+
+
+  <div class="grid2">
+
+    <button
+      class="btn"
+      onclick="openPage('trade')">
+      Buy
+    </button>
+
+    <button
+      class="btn secondary"
+      onclick="setTradeMode('sell');openPage('trade')">
+      Sell
+    </button>
+
+    <button
+      class="btn secondary"
+      onclick="openPage('payments')">
+      Deposit
+    </button>
+
+    <button
+      class="btn secondary"
+      onclick="showToast('Withdraw θα ενεργοποιηθεί μετά τη σύνδεση wallet backend.')">
+      Withdraw
+    </button>
+
+  </div>
+
+
+  <div class="section-title">
+    <h2>Holdings</h2>
+  </div>
+
+  <div id="holdings" class="card"></div>
+
+
+  <div class="section-title">
+    <h2>Locked Orders</h2>
+  </div>
+
+
+  <div class="card hold">
+
+    <div class="row">
+
+      <div>
+        <b>Crypto Delivery</b>
+        <div class="tiny">
+          Sell unavailable until delivery
+        </div>
+      </div>
+
+      <span class="status lock">
+        LOCKED
+      </span>
+
+    </div>
+
+    <div
+      id="lockDate"
+      class="tiny"
+      style="margin-top:10px">
+      No active lock
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- ACCOUNT -->
+
+<section id="account" class="page">
+
+  <h1>Λογαριασμός</h1>
+
+
+  <div class="card account-card">
+
+    <div class="avatar">
+      CM
+    </div>
+
+    <div>
+
+      <b id="accountName">
+        CryptoMarket User
+      </b>
+
+      <div
+        class="tiny"
+        id="accountEmail">
+        Not signed in
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+
+    <div class="menu-item"
+         onclick="openPage('login')">
+
+      <div class="menu-left">
+
+        <span class="menu-icon">◉</span>
+
+        <div>
+          <b>Login / Register</b>
+
+          <div class="tiny">
+            Σύνδεση στον λογαριασμό
+          </div>
+        </div>
+
+      </div>
+
+      <span>›</span>
+
+    </div>
+
+
+
+    <div class="menu-item"
+         onclick="showToast('2FA θα συνδεθεί με πραγματικό auth backend.')">
+
+      <div class="menu-left">
+
+        <span class="menu-icon">
+          🔐
+        </span>
+
+        <div>
+          <b>Security & 2FA</b>
+
+          <div class="tiny">
+            Προστασία λογαριασμού
+          </div>
+        </div>
+
+      </div>
+
+      <span>›</span>
+
+    </div>
+
+
+
+    <div class="menu-item"
+         onclick="showToast('KYC flow θα συνδεθεί με εγκεκριμένο provider.')">
+
+      <div class="menu-left">
+
+        <span class="menu-icon">
+          ✓
+        </span>
+
+        <div>
+          <b>KYC Verification</b>
+
+          <div class="tiny">
+            Identity verification
+          </div>
+        </div>
+
+      </div>
+
+      <span>›</span>
+
+    </div>
+
+
+
+    <div class="menu-item"
+         onclick="showToast('Notifications settings')">
+
+      <div class="menu-left">
+
+        <span class="menu-icon">
+          🔔
+        </span>
+
+        <div>
+          <b>Notifications</b>
+
+          <div class="tiny">
+            Alerts & updates
+          </div>
+        </div>
+
+      </div>
+
+      <span>›</span>
+
+    </div>
+
+
+
+    <div class="menu-item"
+         onclick="showToast('Appearance: Dark Theme ενεργό')">
+
+      <div class="menu-left">
+
+        <span class="menu-icon">
+          ◐
+        </span>
+
+        <div>
+          <b>Appearance</b>
+
+          <div class="tiny">
+            Dark Theme
+          </div>
+        </div>
+
+      </div>
+
+      <span>›</span>
+
+    </div>
+
+
+
+    <div class="menu-item"
+         onclick="showToast('Help & Support')">
+
+      <div class="menu-left">
+
+        <span class="menu-icon">
+          ?
+        </span>
+
+        <div>
+          <b>Help & Support</b>
+
+          <div class="tiny">
+            Contact & tickets
+          </div>
+        </div>
+
+      </div>
+
+      <span>›</span>
+
+    </div>
+
+
+  </div>
+
+
+
+  <div class="card">
+
+    <h3>
+      Contact Form
+    </h3>
+
+    <input
+      id="supportEmail"
+      class="input"
+      placeholder="Email">
+
+    <textarea
+      id="supportMessage"
+      class="input"
+      style="min-height:100px;margin-top:8px"
+      placeholder="Μήνυμα"></textarea>
+
+    <button
+      class="btn full"
+      style="margin-top:8px"
+      onclick="showToast('Το support form είναι έτοιμο για σύνδεση με email backend.')">
+
+      Send to Support
+
+    </button>
+
+  </div>
+
+
+
+  <div class="card">
+
+    <h3>
+      Account Deletion
+    </h3>
+
+    <p class="tiny">
+
+      Το αίτημα διαγραφής πρέπει να ελέγχεται
+      από το backend και να τηρεί τις νόμιμες
+      υποχρεώσεις διατήρησης δεδομένων.
+
+    </p>
+
+    <button
+      class="btn secondary full"
+      onclick="showToast('Request submitted only after backend integration.')">
+
+      Request Account Deletion
+
+    </button>
+
+  </div>
+
+</section>
+
+
+
+<!-- LOGIN -->
+
+<section id="login" class="page login">
+
+  <div class="login-logo">
+
+    <div class="logo">
+      C
+    </div>
+
+    <h1>
+      Crypto<span style="color:#a65cff">
+        Market
+      </span>
+    </h1>
+
+    <p class="muted">
+      Your crypto. Your freedom.
+    </p>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="switch">
+
+      <button
+        id="loginSwitch"
+        class="active"
+        onclick="setAuth('login')">
+        Login
+      </button>
+
+      <button
+        id="registerSwitch"
+        onclick="setAuth('register')">
+        Register
+      </button>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Email
+      </label>
+
+      <input
+        class="input"
+        id="authEmail"
+        type="email"
+        placeholder="you@example.com">
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Password
+      </label>
+
+      <input
+        class="input"
+        id="authPassword"
+        type="password"
+        placeholder="••••••••">
+
+    </div>
+
+
+    <label class="tiny">
+      <input type="checkbox">
+      Remember me
+    </label>
+
+
+    <button
+      class="btn full"
+      style="margin-top:12px"
+      onclick="submitAuth()">
+
+      Login
+
+    </button>
+
+
+    <button
+      class="btn secondary full"
+      style="margin-top:8px"
+      onclick="showToast('OAuth provider θα συνδεθεί αργότερα.')">
+
+      Continue with Google / Apple
+
+    </button>
+
+
+    <button
+      class="link"
+      style="background:none;border:0;margin-top:12px"
+      onclick="showToast('Password recovery θα συνδεθεί με auth backend.')">
+
+      Forgot password?
+
+    </button>
+
+  </div>
+
+</section>
+
+
+
+<!-- NEWS -->
+
+<section id="news" class="page">
+
+  <h1>News</h1>
+
+  <p class="muted">
+    Crypto market news
+  </p>
+
+
+  <div class="tabs">
+
+    <button class="active">
+      All
+    </button>
+
+    <button>
+      Bitcoin
+    </button>
+
+    <button>
+      Ethereum
+    </button>
+
+    <button>
+      Altcoins
+    </button>
+
+  </div>
+
+
+  <div class="card" id="newsList">
+
+    <div class="news">
+
+      <div class="news-img"></div>
+
+      <div>
+
+        <h3>
+          CryptoMarket News
+        </h3>
+
+        <p>
+          Συνδέστε verified news API πριν
+          εμφανιστούν live άρθρα.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="news">
+
+      <div class="news-img"></div>
+
+      <div>
+
+        <h3>
+          Live market updates
+        </h3>
+
+        <p>
+          Τα market prices προέρχονται
+          από το market-data API.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- DELIVERY -->
+
+<section id="delivery" class="page">
+
+  <button
+    class="link"
+    onclick="openPage('portfolio')">
+    ← Portfolio
+  </button>
+
+
+  <div class="delivery">
+
+    <span class="pill">
+      Crypto Delivery
+    </span>
+
+    <h1>
+      4-Day Delivery
+    </h1>
+
+    <p class="muted">
+
+      Η συγκεκριμένη αγορά παραμένει
+      κλειδωμένη μέχρι την ημερομηνία παράδοσης.
+
+    </p>
+
+
+    <div class="card">
+
+      <div class="detail-head">
+
+        <div
+          class="big-icon"
+          id="deliveryIcon">
+          ₿
+        </div>
+
+        <div>
+
+          <b id="deliveryCoin">
+            Bitcoin
+          </b>
+
+          <div
+            class="tiny"
+            id="deliveryAmount">
+            —
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="timeline">
+
+      <div>
+
+        <div class="point done">
+          ✓
+        </div>
+
+        <div class="tiny">
+          Pending
+        </div>
+
+      </div>
+
+
+      <div class="connector done"></div>
+
+
+      <div>
+
+        <div class="point done">
+          🔒
+        </div>
+
+        <div class="tiny">
+          Locked
+        </div>
+
+      </div>
+
+
+      <div class="connector"></div>
+
+
+      <div>
+
+        <div class="point">
+          ✓
+        </div>
+
+        <div class="tiny">
+          Delivered
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="row">
+
+        <span class="muted">
+          Purchase date
+        </span>
+
+        <b id="purchaseDate">
+          —
+        </b>
+
+      </div>
+
+
+      <div
+        class="row"
+        style="margin-top:10px">
+
+        <span class="muted">
+          Unlock date
+        </span>
+
+        <b id="unlockDate">
+          —
+        </b>
+
+      </div>
+
+    </div>
+
+
+    <p class="notice">
+
+      Κατά τη διάρκεια του lock,
+      το Sell δεν είναι διαθέσιμο.
+
+      Μετά την ολοκλήρωση της παράδοσης,
+      το Sell μπορεί να ενεργοποιηθεί σύμφωνα
+      με τους όρους της υπηρεσίας.
+
+    </p>
+
+  </div>
+
+</section>
+
+
+
+<!-- SUCCESS -->
+
+<section id="success" class="page">
+
+  <div class="success">
+
+    <div class="check">
+      ✓
+    </div>
+
+    <h1>
+      Payment Successful
+    </h1>
+
+    <p class="muted">
+
+      Η πληρωμή επιβεβαιώθηκε
+      από τον payment provider.
+
+    </p>
+
+  </div>
+
+
+  <div class="card summary">
+
+    <div>
+      <span>Total</span>
+      <strong id="successTotal">
+        €0.00
+      </strong>
+    </div>
+
+    <div>
+      <span>Crypto</span>
+      <strong id="successCrypto">
+        —
+      </strong>
+    </div>
+
+    <div>
+      <span>Payment method</span>
+      <strong id="successMethod">
+        —
+      </strong>
+    </div>
+
+    <div>
+      <span>Transaction ID</span>
+      <strong id="successId">
+        —
+      </strong>
+    </div>
+
+    <div>
+      <span>Delivery</span>
+      <strong>
+        4 days lock
+      </strong>
+    </div>
+
+  </div>
+
+
+  <button
+    class="btn full"
+    onclick="openPage('delivery')">
+
+    View Delivery
+
+  </button>
+
+
+  <button
+    class="btn secondary full"
+    style="margin-top:8px"
+    onclick="openPage('portfolio')">
+
+    Back to Portfolio
+
+  </button>
+
+</section>
+
+
+</main>
+
+
+
+<!-- BOTTOM NAV -->
+
+<nav class="nav">
+
+  <button
+    data-page="home"
+    class="active">
+
+    <span class="nav-icon">
+      ⌂
+    </span>
+
+    Αρχική
+
+  </button>
+
+
+  <button data-page="markets">
+
+    <span class="nav-icon">
+      ↗
+    </span>
+
+    Αγορές
+
+  </button>
+
+
+  <button data-page="trade">
+
+    <span class="nav-icon">
+      ↔
+    </span>
+
+    Trade
+
+  </button>
+
+
+  <button data-page="portfolio">
+
+    <span class="nav-icon">
+      ▣
+    </span>
+
+    Πορτοφόλι
+
+  </button>
+
+
+  <button data-page="account">
+
+    <span class="nav-icon">
+      ◯
+    </span>
+
+    Λογαριασμός
+
+  </button>
+
+</nav>
+
+
+<div id="toast" class="toast"></div>
+
+</div>
+
+
+
 <script>
-async function loadLiveMarkets() {
-  try {
-    const symbols = ["BTCUSDT","ETHUSDT","SOLUSDT","BNBUSDT"];
-    const url =
-      "https://api.binance.com/api/v3/ticker/24hr?symbols=" +
-      encodeURIComponent(JSON.stringify(symbols));
 
-    const response = await fetch(url);
-    if (!response.ok) throw new Error("Market API error");
+const BACKEND_URL =
+  "https://cryptomarket-1lqy.onrender.com";
 
-    const data = await response.json();
 
-    const prices = {};
+const COINS = [
 
-    data.forEach(item => {
-      prices[item.symbol] = {
-        price: Number(item.lastPrice),
-        change: Number(item.priceChangePercent)
-      };
-    });
+  {
+    id:"bitcoin",
+    symbol:"BTC",
+    name:"Bitcoin",
+    icon:"₿"
+  },
 
-    const coins = document.querySelectorAll(".coin");
+  {
+    id:"ethereum",
+    symbol:"ETH",
+    name:"Ethereum",
+    icon:"Ξ"
+  },
 
-    coins.forEach(coin => {
-      const symbol = coin.querySelector(".coin-symbol").textContent.trim();
-      const status = coin.querySelector(".status");
-      const item = prices[symbol + "USDT"];
+  {
+    id:"solana",
+    symbol:"SOL",
+    name:"Solana",
+    icon:"S"
+  },
 
-      if (item) {
-        status.textContent =
-          "$" + item.price.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-          }) +
-          " • 24h " +
-          (item.change >= 0 ? "+" : "") +
-          item.change.toFixed(2) + "%";
-      }
-    });
+  {
+    id:"binancecoin",
+    symbol:"BNB",
+    name:"BNB",
+    icon:"B"
+  },
 
-    const rows = document.querySelectorAll(".market tbody tr");
+  {
+    id:"ripple",
+    symbol:"XRP",
+    name:"XRP",
+    icon:"X"
+  },
 
-    rows.forEach(row => {
-      const asset = row.children[1].textContent;
-      const symbol = asset.match(/\((.*?)\)/)?.[1];
-      const item = prices[symbol + "USDT"];
+  {
+    id:"dogecoin",
+    symbol:"DOGE",
+    name:"Dogecoin",
+    icon:"Ð"
+  },
 
-      if (item) {
-        row.children[2].textContent =
-          "$" + item.price.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-          });
+  {
+    id:"cardano",
+    symbol:"ADA",
+    name:"Cardano",
+    icon:"A"
+  },
 
-        row.children[3].textContent =
-          (item.change >= 0 ? "+" : "") +
-          item.change.toFixed(2) + "%";
+  {
+    id:"matic-network",
+    symbol:"MATIC",
+    name:"Polygon",
+    icon:"M"
+  },
 
-        row.children[5].textContent = "Live";
-      }
-    });
+  {
+    id:"shiba-inu",
+    symbol:"SHIB",
+    name:"Shiba Inu",
+    icon:"S"
+  },
 
-  } catch (error) {
-    console.error("Live market data unavailable:", error);
+  {
+    id:"chainlink",
+    symbol:"LINK",
+    name:"Chainlink",
+    icon:"L"
   }
+
+];
+
+
+let marketData = [];
+
+let currentFilter = "all";
+
+let tradeMode = "buy";
+
+let payMethod = "Revolut";
+
+let recipientType = "Revtag";
+
+let localHoldings =
+  JSON.parse(
+    localStorage.getItem("cm_holdings") || "{}"
+  );
+
+
+
+function money(v){
+
+  return Number.isFinite(v)
+
+    ? new Intl.NumberFormat(
+        "el-GR",
+        {
+          style:"currency",
+          currency:"EUR",
+          maximumFractionDigits:
+            v < 1 ? 6 : 2
+        }
+      ).format(v)
+
+    : "—";
+
 }
 
-loadLiveMarkets();
-setInterval(loadLiveMarkets, 30000);
+
+
+function pct(v){
+
+  return (
+    v >= 0 ? "+" : ""
+  ) +
+  Number(v || 0).toFixed(2) +
+  "%";
+
+}
+
+
+
+function showToast(msg){
+
+  const t =
+    document.getElementById("toast");
+
+  t.textContent = msg;
+
+  t.classList.add("show");
+
+  clearTimeout(window.__toast);
+
+  window.__toast =
+    setTimeout(
+      () =>
+        t.classList.remove("show"),
+      2600
+    );
+
+}
+
+
+
+function openPage(id){
+
+  document
+    .querySelectorAll(".page")
+    .forEach(
+      p =>
+        p.classList.remove("active")
+    );
+
+
+  const el =
+    document.getElementById(id);
+
+  if(el)
+    el.classList.add("active");
+
+
+  document
+    .querySelectorAll(".nav button")
+    .forEach(
+      b =>
+        b.classList.toggle(
+          "active",
+          b.dataset.page === id
+        )
+    );
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+
+  if(id === "portfolio")
+    renderPortfolio();
+
+  if(id === "trade")
+    fillTradeCoins();
+
+  if(id === "markets")
+    renderMarkets();
+
+}
+
+
+
+document
+  .querySelectorAll(".nav button")
+  .forEach(
+    b =>
+      b.onclick =
+        () =>
+          openPage(
+            b.dataset.page
+          )
+  );
+
+
+
+async function loadMarkets(){
+
+  const list =
+    "bitcoin,ethereum,solana,binancecoin,ripple,dogecoin,cardano,matic-network,shiba-inu,chainlink";
+
+
+  try{
+
+    const url =
+      "https://api.coingecko.com/api/v3/coins/markets" +
+      "?vs_currency=eur" +
+      "&ids=" + list +
+      "&order=market_cap_desc" +
+      "&per_page=50" +
+      "&page=1" +
+      "&sparkline=true" +
+      "&price_change_percentage=24h";
+
+
+    const r =
+      await fetch(url);
+
+
+    if(!r.ok)
+      throw new Error(
+        "market api"
+      );
+
+
+    marketData =
+      await r.json();
+
+
+    renderHomeCoins();
+    renderMarkets();
+    fillTradeCoins();
+    renderPortfolio();
+
+  }
+
+  catch(e){
+
+    showToast(
+      "Live market data προσωρινά μη διαθέσιμα."
+    );
+
+    console.error(e);
+
+  }
+
+}
+
+
+
+function renderHomeCoins(){
+
+  const el =
+    document.getElementById(
+      "homeCoins"
+    );
+
+  if(!el)
+    return;
+
+
+  el.innerHTML =
+    marketData
+      .slice(0,5)
+      .map(
+        c =>
+          `
+          <div
+            class="coin-mini"
+            onclick="openCoin('${c.id}')">
+
+            <strong>
+              ${c.symbol.toUpperCase()}
+            </strong>
+
+            <div class="price">
+              ${money(c.current_price)}
+            </div>
+
+            <div
+              class="${
+                c.price_change_percentage_24h >= 0
+                  ? "positive"
+                  : "negative"
+              } change">
+
+              ${pct(
+                c.price_change_percentage_24h
+              )}
+
+            </div>
+
+          </div>
+          `
+      )
+      .join("");
+
+
+  document.getElementById(
+    "trending"
+  ).innerHTML =
+
+    marketData
+      .slice(0,4)
+      .map(
+        c =>
+          `
+          <div
+            class="row"
+            style="padding:9px 0;border-bottom:1px solid #17304f"
+            onclick="openCoin('${c.id}')">
+
+            <span>
+              <b>${c.name}</b>
+
+              <span class="tiny">
+                ${c.symbol.toUpperCase()}
+              </span>
+
+            </span>
+
+            <span>
+
+              <b>
+                ${money(c.current_price)}
+              </b>
+
+              <span
+                class="${
+                  c.price_change_percentage_24h >= 0
+                    ? "positive"
+                    : "negative"
+                }">
+
+                ${pct(
+                  c.price_change_percentage_24h
+                )}
+
+              </span>
+
+            </span>
+
+          </div>
+          `
+      )
+      .join("");
+
+}
+
+
+
+function renderMarkets(){
+
+  const el =
+    document.getElementById(
+      "marketList"
+    );
+
+  if(!el)
+    return;
+
+
+  const q =
+    (
+      document.getElementById(
+        "marketSearch"
+      )?.value || ""
+    ).toLowerCase();
+
+
+  let data =
+    [...marketData];
+
+
+  if(currentFilter === "gainers")
+
+    data.sort(
+      (a,b) =>
+        (b.price_change_percentage_24h || 0) -
+        (a.price_change_percentage_24h || 0)
+    );
+
+
+  if(currentFilter === "losers")
+
+    data.sort(
+      (a,b) =>
+        (a.price_change_percentage_24h || 0) -
+        (b.price_change_percentage_24h || 0)
+    );
+
+
+  if(currentFilter === "top")
+
+    data =
+      data.slice(0,10);
+
+
+  data =
+    data.filter(
+      c =>
+        (
+          c.name +
+          " " +
+          c.symbol
+        )
+        .toLowerCase()
+        .includes(q)
+    );
+
+
+  el.innerHTML =
+
+    data
+      .map(
+        c =>
+          `
+          <div
+            class="market-row"
+            onclick="openCoin('${c.id}')">
+
+            <div class="coin-icon">
+              ${c.symbol[0]}
+            </div>
+
+            <div>
+
+              <div class="coin-name">
+                ${c.name}
+              </div>
+
+              <div class="coin-symbol">
+
+                ${c.symbol.toUpperCase()}
+                • MKT
+                ${money(c.market_cap)}
+
+              </div>
+
+            </div>
+
+            <div class="market-price">
+
+              ${money(c.current_price)}
+
+            </div>
+
+            <div
+              class="market-change ${
+                c.price_change_percentage_24h >= 0
+                  ? "positive"
+                  : "negative"
+              }">
+
+              ${pct(
+                c.price_change_percentage_24h
+              )}
+
+            </div>
+
+          </div>
+          `
+      )
+      .join("")
+
+    ||
+
+    `
+      <div class="card">
+        <p class="muted">
+          Δεν βρέθηκε coin.
+        </p>
+      </div>
+    `;
+
+}
+
+
+
+document
+  .querySelectorAll(
+    "#marketTabs button"
+  )
+  .forEach(
+    b =>
+      b.onclick = () => {
+
+        document
+          .querySelectorAll(
+            "#marketTabs button"
+          )
+          .forEach(
+            x =>
+              x.classList.remove(
+                "active"
+              )
+          );
+
+
+        b.classList.add(
+          "active"
+        );
+
+
+        currentFilter =
+          b.dataset.filter;
+
+
+        renderMarkets();
+
+      }
+  );
+
+
+
+function openCoin(id){
+
+  const c =
+    marketData.find(
+      x => x.id === id
+    );
+
+
+  if(!c)
+    return;
+
+
+  document.getElementById(
+    "coinDetail"
+  ).innerHTML =
+
+  `
+  <div class="card">
+
+    <div class="detail-head">
+
+      <div class="big-icon">
+        ${c.symbol[0]}
+      </div>
+
+      <div>
+
+        <h2>
+          ${c.name}
+        </h2>
+
+        <div class="muted">
+          ${c.symbol.toUpperCase()}
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="big-price">
+      ${money(c.current_price)}
+    </div>
+
+
+    <div
+      class="${
+        c.price_change_percentage_24h >= 0
+          ? "positive"
+          : "negative"
+      }">
+
+      ${pct(
+        c.price_change_percentage_24h
+      )}
+
+      24h
+
+    </div>
+
+
+    <div class="linechart">
+
+      <svg
+        viewBox="0 0 500 180"
+        preserveAspectRatio="none">
+
+        <polyline
+          fill="none"
+          stroke="#8b5cff"
+          stroke-width="4"
+          points="${
+            sparkPoints(
+              c.sparkline_in_7d?.price || []
+            )
+          }">
+
+        </polyline>
+
+      </svg>
+
+    </div>
+
+
+    <div
+      class="timeframes"
+      style="margin:12px 0">
+
+      <button class="active">
+        1D
+      </button>
+
+      <button>
+        7D
+      </button>
+
+      <button>
+        30D
+      </button>
+
+      <button>
+        1Y
+      </button>
+
+      <button>
+        ALL
+      </button>
+
+    </div>
+
+
+    <div class="stats">
+
+      <div class="stat">
+
+        <small>
+          Market Cap
+        </small>
+
+        <strong>
+          ${money(c.market_cap)}
+        </strong>
+
+      </div>
+
+
+      <div class="stat">
+
+        <small>
+          Volume 24h
+        </small>
+
+        <strong>
+          ${money(c.total_volume)}
+        </strong>
+
+      </div>
+
+
+      <div class="stat">
+
+        <small>
+          High 24h
+        </small>
+
+        <strong>
+          ${money(c.high_24h)}
+        </strong>
+
+      </div>
+
+
+      <div class="stat">
+
+        <small>
+          Low 24h
+        </small>
+
+        <strong>
+          ${money(c.low_24h)}
+        </strong>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="grid2">
+
+    <button
+      class="btn"
+      onclick="selectTradeCoin('${c.id}');setTradeMode('buy');openPage('trade')">
+
+      Buy
+      ${c.symbol.toUpperCase()}
+
+    </button>
+
+
+    <button
+      class="btn secondary"
+      onclick="selectTradeCoin('${c.id}');setTradeMode('sell');openPage('trade')">
+
+      Sell
+
+    </button>
+
+  </div>
+  `;
+
+
+  openPage("coin");
+
+}
+
+
+
+function sparkPoints(arr){
+
+  if(!arr.length)
+
+    return "0,160 100,120 200,130 300,70 400,90 500,30";
+
+
+  const a =
+    arr.slice(-30);
+
+
+  const min =
+    Math.min(...a);
+
+  const max =
+    Math.max(...a);
+
+
+  return a
+    .map(
+      (v,i) =>
+        `${(i/(a.length-1))*500},${
+          160 -
+          ((v-min)/(max-min||1))*130
+        }`
+    )
+    .join(" ");
+
+}
+
+
+
+function fillTradeCoins(){
+
+  const s =
+    document.getElementById(
+      "tradeCoin"
+    );
+
+
+  if(!s)
+    return;
+
+
+  const old =
+    s.value;
+
+
+  s.innerHTML =
+    marketData
+      .map(
+        c =>
+          `
+          <option value="${c.id}">
+            ${c.name}
+            (${c.symbol.toUpperCase()})
+          </option>
+          `
+      )
+      .join("");
+
+
+  if(old)
+    s.value = old;
+
+
+  updateTrade();
+
+}
+
+
+
+function selectTradeCoin(id){
+
+  const s =
+    document.getElementById(
+      "tradeCoin"
+    );
+
+
+  if(s)
+    s.value = id;
+
+
+  updateTrade();
+
+}
+
+
+
+function setTradeMode(mode){
+
+  tradeMode =
+    mode;
+
+
+  document.getElementById(
+    "buyTab"
+  )
+  .classList.toggle(
+    "active",
+    mode === "buy"
+  );
+
+
+  document.getElementById(
+    "sellTab"
+  )
+  .classList.toggle(
+    "active",
+    mode === "sell"
+  );
+
+
+  document.getElementById(
+    "tradeButton"
+  ).textContent =
+
+    mode === "buy"
+      ? "Continue to Payment"
+      : "Sell Crypto";
+
+
+  updateTrade();
+
+}
+
+
+
+function setAmount(v){
+
+  document.getElementById(
+    "tradeAmount"
+  ).value = v;
+
+
+  updateTrade();
+
+}
+
+
+
+function updateTrade(){
+
+  const c =
+    marketData.find(
+      x =>
+        x.id ===
+        document.getElementById(
+          "tradeCoin"
+        )?.value
+    );
+
+
+  if(!c)
+    return;
+
+
+  const amount =
+    Math.max(
+      0,
+      Number(
+        document.getElementById(
+          "tradeAmount"
+        ).value
+      ) || 0
+    );
+
+
+  const fee =
+    amount * .01;
+
+
+  const net =
+    amount - fee;
+
+
+  document.getElementById(
+    "tradePrice"
+  ).textContent =
+    money(
+      c.current_price
+    );
+
+
+  document.getElementById(
+    "tradeReceive"
+  ).textContent =
+
+    tradeMode === "buy"
+
+      ? `${(
+          net /
+          c.current_price
+        ).toFixed(8)}
+        ${c.symbol.toUpperCase()}`
+
+      : money(net);
+
+
+  document.getElementById(
+    "tradeFee"
+  ).textContent =
+    money(fee);
+
+
+  document.getElementById(
+    "tradeTotal"
+  ).textContent =
+
+    money(
+      tradeMode === "buy"
+        ? amount
+        : net
+    );
+
+}
+
+
+
+function startTrade(){
+
+  if(tradeMode === "sell"){
+
+    showToast(
+      "Το Sell δεν εκτελείται από το frontend. Χρειάζεται verified backend + custody/wallet provider."
+    );
+
+    return;
+
+  }
+
+
+  openPage("payments");
+
+
+  document.getElementById(
+    "payAmount"
+  ).value =
+    document.getElementById(
+      "tradeAmount"
+    ).value;
+
+}
+
+
+
+function selectPay(el,method){
+
+  document
+    .querySelectorAll(
+      ".pay-card"
+    )
+    .forEach(
+      x =>
+        x.classList.remove(
+          "active"
+        )
+    );
+
+
+  el.classList.add(
+    "active"
+  );
+
+
+  payMethod =
+    method;
+
+
+  document.getElementById(
+    "payMethodLabel"
+  ).textContent =
+    method;
+
+}
+
+
+
+function setRecipient(el,type){
+
+  el.parentElement
+    .querySelectorAll(
+      "button"
+    )
+    .forEach(
+      x =>
+        x.classList.remove(
+          "active"
+        )
+    );
+
+
+  el.classList.add(
+    "active"
+  );
+
+
+  recipientType =
+    type;
+
+}
+
+
+
+function setPayAmount(v){
+
+  document.getElementById(
+    "payAmount"
+  ).value = v;
+
+
+  document.getElementById(
+    "payTotalLabel"
+  ).textContent =
+    money(v);
+
+}
+
+
+
+document
+  .getElementById(
+    "recipient"
+  )
+  .addEventListener(
+    "input",
+    e =>
+      document.getElementById(
+        "payRecipientLabel"
+      ).textContent =
+        e.target.value || "—"
+  );
+
+
+
+document
+  .getElementById(
+    "payAmount"
+  )
+  .addEventListener(
+    "input",
+    e =>
+      document.getElementById(
+        "payTotalLabel"
+      ).textContent =
+        money(
+          Number(
+            e.target.value
+          ) || 0
+        )
+  );
+
+
+
+async function requestPayment(){
+
+  const amount =
+    Number(
+      document.getElementById(
+        "payAmount"
+      ).value
+    ) || 0;
+
+
+  const recipient =
+    document.getElementById(
+      "recipient"
+    ).value.trim();
+
+
+  if(
+    amount <= 0 ||
+    !recipient
+  ){
+
+    showToast(
+      "Συμπλήρωσε παραλήπτη και ποσό."
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    const r =
+      await fetch(
+        BACKEND_URL +
+        "/api/payment/create",
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify({
+              amount_eur:amount,
+              payment_method:payMethod,
+              recipient_type:recipientType,
+              recipient:recipient
+            })
+
+        }
+      );
+
+
+    const data =
+      await r.json();
+
+
+    if(r.status === 501){
+
+      showToast(
+        "Το payment provider δεν έχει συνδεθεί ακόμα."
+      );
+
+      return;
+
+    }
+
+
+    if(!r.ok)
+
+      throw new Error(
+        data.message ||
+        "payment error"
+      );
+
+
+    showToast(
+      "Payment session created."
+    );
+
+  }
+
+  catch(e){
+
+    showToast(
+      "Το payment backend είναι έτοιμο, αλλά ο provider δεν έχει συνδεθεί."
+    );
+
+  }
+
+}
+
+
+
+function renderPortfolio(){
+
+  let total = 0;
+
+
+  marketData.forEach(
+    c => {
+
+      total +=
+        (
+          Number(
+            localHoldings[
+              c.symbol
+            ]
+          ) || 0
+        ) *
+        c.current_price;
+
+    }
+  );
+
+
+  document.getElementById(
+    "portfolioBalance"
+  ).textContent =
+    money(total);
+
+
+  document.getElementById(
+    "homeBalance"
+  ).textContent =
+    money(total);
+
+
+  const h =
+    document.getElementById(
+      "holdings"
+    );
+
+
+  if(!h)
+    return;
+
+
+  h.innerHTML =
+
+    marketData
+      .filter(
+        c =>
+          (
+            Number(
+              localHoldings[
+                c.symbol
+              ]
+            ) || 0
+          ) > 0
+      )
+      .map(
+        c =>
+          `
+          <div class="holding">
+
+            <div class="holding-left">
+
+              <div class="holding-icon">
+                ${c.symbol[0]}
+              </div>
+
+              <div>
+
+                <b>
+                  ${c.name}
+                </b>
+
+                <div class="tiny">
+
+                  ${localHoldings[c.symbol]}
+                  ${c.symbol.toUpperCase()}
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div>
+
+              <b>
+                ${money(
+                  localHoldings[c.symbol] *
+                  c.current_price
+                )}
+              </b>
+
+              <div class="tiny">
+
+                ${pct(
+                  c.price_change_percentage_24h
+                )}
+
+              </div>
+
+            </div>
+
+          </div>
+          `
+      )
+      .join("")
+
+    ||
+
+    `
+      <p class="muted">
+        Δεν υπάρχουν holdings ακόμα.
+      </p>
+    `;
+
+}
+
+
+
+function setAuth(mode){
+
+  document.getElementById(
+    "loginSwitch"
+  )
+  .classList.toggle(
+    "active",
+    mode === "login"
+  );
+
+
+  document.getElementById(
+    "registerSwitch"
+  )
+  .classList.toggle(
+    "active",
+    mode === "register"
+  );
+
+
+  document.querySelector(
+    "#login .btn.full"
+  ).textContent =
+
+    mode === "login"
+      ? "Login"
+      : "Create account";
+
+}
+
+
+
+function submitAuth(){
+
+  showToast(
+    "Το auth backend θα συνδεθεί πριν ενεργοποιηθεί πραγματικό login."
+  );
+
+}
+
+
+
+function showDelivery(
+  coin,
+  amount
+){
+
+  const now =
+    new Date();
+
+
+  const unlock =
+    new Date(
+      now.getTime() +
+      4 * 24 * 60 * 60 * 1000
+    );
+
+
+  document.getElementById(
+    "deliveryCoin"
+  ).textContent =
+    coin?.name ||
+    "Crypto";
+
+
+  document.getElementById(
+    "deliveryAmount"
+  ).textContent =
+
+    (amount || "—") +
+    " " +
+    (coin?.symbol || "");
+
+
+  document.getElementById(
+    "purchaseDate"
+  ).textContent =
+    now.toLocaleString(
+      "el-GR"
+    );
+
+
+  document.getElementById(
+    "unlockDate"
+  ).textContent =
+    unlock.toLocaleString(
+      "el-GR"
+    );
+
+
+  document.getElementById(
+    "lockDate"
+  ).textContent =
+    "Unlock: " +
+    unlock.toLocaleString(
+      "el-GR"
+    );
+
+
+  openPage(
+    "delivery"
+  );
+
+}
+
+
+
+function checkBackend(){
+
+  fetch(
+    BACKEND_URL +
+    "/api/health"
+  )
+
+  .then(
+    r =>
+      r.json()
+  )
+
+  .then(
+    x =>
+      console.log(
+        "Backend:",
+        x
+      )
+  )
+
+  .catch(
+    () =>
+      console.log(
+        "Backend unavailable"
+      )
+  );
+
+}
+
+
+
+function makeBars(id){
+
+  const e =
+    document.getElementById(
+      id
+    );
+
+
+  if(!e)
+    return;
+
+
+  e.innerHTML =
+    Array
+      .from(
+        {length:30},
+        () =>
+          `
+          <div
+            class="bar"
+            style="height:${
+              15 +
+              Math.random()*85
+            }%">
+          </div>
+          `
+      )
+      .join("");
+
+}
+
+
+
+makeBars(
+  "balanceChart"
+);
+
+makeBars(
+  "portfolioChart"
+);
+
+loadMarkets();
+
+checkBackend();
+
 </script>
+
 </body>
-  </html>
+</html>
